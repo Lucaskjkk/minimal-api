@@ -1,5 +1,16 @@
+using minimal_api.infraestrutura.DB;
+using minimal_api.Dominio.DTOs;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+
+builder.Services.AddDbContext<DbContexto>(options => {
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("mysql"),
+        ServerVersion .AutoDetect(builder.Configuration.GetConnectionString("mysql"))
+    );
+});
 
 app.MapGet("/", () => "Olá Pessoal");
 
@@ -21,6 +32,6 @@ app.Run();
 
 public class LoginDTO
 {
-    public string Email { get; set; } = default;
-    public string Senha { get; set; } = default;
+    public string Email { get; set; } = default!;
+    public string Senha { get; set; } = default!;
 }
